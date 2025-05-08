@@ -1,0 +1,155 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center">{{ isEditMode ? 'Editar Endereço' : 'Novo Endereço' }}</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="cep" class="form-label">CEP</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="cep"
+                    formControlName="cep"
+                    [ngClass]="{'is-invalid': addressForm.get('cep')?.invalid && addressForm.get('cep')?.touched}"
+                    (blur)="buscarCep()"
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    (click)="buscarCep()"
+                    [disabled]="!addressForm.get('cep')?.valid"
+                  >
+                    <i class="bi bi-search"></i>
+                  </button>
+                </div>
+                <div class="invalid-feedback" *ngIf="addressForm.get('cep')?.errors?.['required']">
+                  CEP é obrigatório
+                </div>
+                <div class="invalid-feedback" *ngIf="addressForm.get('cep')?.errors?.['pattern']">
+                  CEP inválido
+                </div>
+              </div>
+
+              <div class="col-md-8 mb-3">
+                <label for="logradouro" class="form-label">Logradouro</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="logradouro"
+                  formControlName="logradouro"
+                  [ngClass]="{'is-invalid': addressForm.get('logradouro')?.invalid && addressForm.get('logradouro')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="addressForm.get('logradouro')?.errors?.['required']">
+                  Logradouro é obrigatório
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="numero" class="form-label">Número</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="numero"
+                  formControlName="numero"
+                  [ngClass]="{'is-invalid': addressForm.get('numero')?.invalid && addressForm.get('numero')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="addressForm.get('numero')?.errors?.['required']">
+                  Número é obrigatório
+                </div>
+              </div>
+
+              <div class="col-md-8 mb-3">
+                <label for="complemento" class="form-label">Complemento</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="complemento"
+                  formControlName="complemento"
+                >
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="bairro" class="form-label">Bairro</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bairro"
+                  formControlName="bairro"
+                  [ngClass]="{'is-invalid': addressForm.get('bairro')?.invalid && addressForm.get('bairro')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="addressForm.get('bairro')?.errors?.['required']">
+                  Bairro é obrigatório
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="cidade" class="form-label">Cidade</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cidade"
+                  formControlName="cidade"
+                  [ngClass]="{'is-invalid': addressForm.get('cidade')?.invalid && addressForm.get('cidade')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="addressForm.get('cidade')?.errors?.['required']">
+                  Cidade é obrigatória
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="estado" class="form-label">Estado</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="estado"
+                  formControlName="estado"
+                  maxlength="2"
+                  [ngClass]="{'is-invalid': addressForm.get('estado')?.invalid && addressForm.get('estado')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="addressForm.get('estado')?.errors?.['required']">
+                  Estado é obrigatório
+                </div>
+                <div class="invalid-feedback" *ngIf="addressForm.get('estado')?.errors?.['maxlength']">
+                  Estado deve ter 2 caracteres
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
+
+            <div class="d-grid gap-2">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="addressForm.invalid || loading"
+              >
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isEditMode ? 'Atualizar' : 'Criar' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                routerLink="/usuarios"
+                [disabled]="loading"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

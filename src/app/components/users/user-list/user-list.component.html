@@ -1,0 +1,81 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Usuários</h2>
+        <button class="btn btn-primary" routerLink="/usuarios/novo" *ngIf="canCreateUser()">
+          <i class="bi bi-plus-lg"></i> Novo Usuário
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Tipo</th>
+                  <th>Data de Criação</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="loading">
+                  <td colspan="6" class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Carregando...</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="!loading && users.length === 0">
+                  <td colspan="6" class="text-center">Nenhum usuário encontrado</td>
+                </tr>
+                <tr *ngFor="let user of users">
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.nome }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.tipoUsuario }}</td>
+                  <td>{{ user.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-info btn-sm" [routerLink]="['/usuarios', user.id, 'enderecos']">
+                        <i class="bi bi-geo-alt"></i>
+                      </button>
+                      <button class="btn btn-warning btn-sm" [routerLink]="['/usuarios/editar', user.id]">
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id)" *ngIf="canDeleteUser()">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <nav *ngIf="totalPages > 1" aria-label="Navegação de páginas">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [class.disabled]="currentPage === 0">
+                <a class="page-link" href="#" (click)="$event.preventDefault(); onPageChange(currentPage - 1)">Anterior</a>
+              </li>
+              <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="currentPage === i">
+                <a class="page-link" href="#" (click)="$event.preventDefault(); onPageChange(i)">{{ i + 1 }}</a>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+                <a class="page-link" href="#" (click)="$event.preventDefault(); onPageChange(currentPage + 1)">Próxima</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="text-center">{{ isEditMode ? 'Editar' : 'Novo' }} Usuário</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="nome" class="form-label">Nome</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nome"
+                formControlName="nome"
+                [ngClass]="{'is-invalid': userForm.get('nome')?.invalid && userForm.get('nome')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="userForm.get('nome')?.errors?.['required']">
+                Nome é obrigatório
+              </div>
+              <div class="invalid-feedback" *ngIf="userForm.get('nome')?.errors?.['minlength']">
+                Nome deve ter no mínimo 3 caracteres
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                [ngClass]="{'is-invalid': userForm.get('email')?.invalid && userForm.get('email')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="userForm.get('email')?.errors?.['required']">
+                Email é obrigatório
+              </div>
+              <div class="invalid-feedback" *ngIf="userForm.get('email')?.errors?.['email']">
+                Email inválido
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="senha" class="form-label">Senha</label>
+              <input
+                type="password"
+                class="form-control"
+                id="senha"
+                formControlName="senha"
+                [ngClass]="{'is-invalid': userForm.get('senha')?.invalid && userForm.get('senha')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="userForm.get('senha')?.errors?.['required']">
+                Senha é obrigatória
+              </div>
+              <div class="invalid-feedback" *ngIf="userForm.get('senha')?.errors?.['minlength']">
+                Senha deve ter no mínimo 6 caracteres
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmarSenha"
+                formControlName="confirmarSenha"
+                [ngClass]="{'is-invalid': userForm.get('confirmarSenha')?.invalid && userForm.get('confirmarSenha')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="userForm.get('confirmarSenha')?.errors?.['required']">
+                Confirmação de senha é obrigatória
+              </div>
+              <div class="invalid-feedback" *ngIf="userForm.get('confirmarSenha')?.errors?.['passwordMismatch']">
+                As senhas não coincidem
+              </div>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
+
+            <div class="d-grid gap-2">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="userForm.invalid || loading"
+              >
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isEditMode ? 'Atualizar' : 'Criar' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                routerLink="/usuarios"
+                [disabled]="loading"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

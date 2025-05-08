@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <h3>Endereços do Usuário</h3>
+  <button class="btn btn-primary mb-3" (click)="goToNewAddress()">Novo Endereço</button>
+  <div *ngIf="loading" class="mb-2">Carregando...</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <table class="table" *ngIf="addresses.length > 0">
+    <thead>
+      <tr>
+        <th>CEP</th>
+        <th>Logradouro</th>
+        <th>Número</th>
+        <th>Bairro</th>
+        <th>Cidade</th>
+        <th>Estado</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let address of addresses">
+        <td>{{ address.cep }}</td>
+        <td>{{ address.logradouro }}</td>
+        <td>{{ address.numero }}</td>
+        <td>{{ address.bairro }}</td>
+        <td>{{ address.cidade }}</td>
+        <td>{{ address.estado }}</td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-warning btn-sm" (click)="editAddress(address.id)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteAddress(address.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!loading && addresses.length === 0" class="alert alert-info">
+    Nenhum endereço cadastrado para este usuário.
+  </div>
+</div>

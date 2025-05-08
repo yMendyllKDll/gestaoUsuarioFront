@@ -1,0 +1,11 @@
+<nav class="nav-container" *ngIf="isAuthenticated()">
+  <div class="nav-content">
+    <div class="nav-brand">
+      <a routerLink="/usuarios">Gestão de Usuários</a>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/usuarios" routerLinkActive="active">Usuários</a>
+      <button class="btn-logout" (click)="logout()">Sair</button>
+    </div>
+  </div>
+</nav>
